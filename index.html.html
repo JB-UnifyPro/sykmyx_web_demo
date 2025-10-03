@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UniVibe</title>
+
+  <!-- PWA polish -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="UniVibe">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0b0b10">
+  <link rel="manifest" href="/manifest.webmanifest">
+
+  <style>
+    :root{--bg:#0b0b10;--card:#111827;--text:#e5e7eb;--muted:#9ca3af;--brand:#7c3aed;--brand2:#06b6d4;--r:16px;--shadow:0 14px 35px rgba(0,0,0,.35)}
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;background:radial-gradient(1200px 600px at 10% -10%, rgba(124,58,237,.25), transparent 60%),
+      radial-gradient(900px 500px at 100% 10%, rgba(6,182,212,.18), transparent 60%), var(--bg);
+      color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,Inter,"Segoe UI",system-ui,Roboto,Helvetica,Arial}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:saturate(140%) blur(6px);background:rgba(17,24,39,.55);border-bottom:1px solid rgba(255,255,255,.07)}
+    .container{max-width:980px;margin:0 auto;padding:18px 16px} .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    h1{margin:0;font-weight:800} .badge{padding:5px 10px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--brand2));font-weight:600;font-size:12px}
+    select,button,input{border-radius:10px;border:1px solid rgba(255,255,255,.08);background:#0f1624;color:var(--text);padding:10px 12px}
+    main{max-width:980px;margin:22px auto 36px;padding:0 16px}
+    .hero{background:linear-gradient(180deg,rgba(124,58,237,.12),rgba(6,182,212,.10));border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-top:14px}
+    .hero p{margin:8px 0 0;color:#cbd5e1}
+    nav.tabs{display:flex;gap:8px;margin:18px 0 14px;flex-wrap:wrap}
+    nav.tabs button{background:#0f1624;border:1px solid rgba(255,255,255,.08);padding:10px 14px;border-radius:999px;cursor:pointer}
+    nav.tabs button.active{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;border:none}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+    .notice{font-size:13px;color:#a7b0c3} .lock{border-left:3px solid var(--brand2);padding-left:10px;color:#bcd}
+    .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#0f1624;border:1px solid rgba(255,255,255,.14);
+      padding:10px 14px;border-radius:12px;box-shadow:var(--shadow);display:none}
+    .pulse{width:120px;height:120px;border-radius:999px;background:radial-gradient(circle,var(--brand) 0%,var(--brand2) 60%,transparent 61%);
+      margin:auto;box-shadow:0 0 0 0 rgba(124,58,237,.45);animation:pulse 1.8s infinite}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(124,58,237,.45)}70%{box-shadow:0 0 0 22px rgba(124,58,237,0)}100%{box-shadow:0 0 0 0 rgba(124,58,237,0)}}
+    table{width:100%;border-collapse:collapse;font-size:14px;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden}
+    th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.06)} th{text-align:left;color:#cbd5e1;background:rgba(255,255,255,.03)}
+    footer{color:#9ca3af;font-size:12px;padding:36px 16px;text-align:center}
+    .tip{font-size:13px;background:#0f1624;border:1px dashed rgba(255,255,255,.2);padding:8px 10px;border-radius:10px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="row" style="gap:10px; justify-content:space-between">
+      <div class="row" style="gap:10px"><span class="badge">UniVibe</span><h1>UniVibe</h1></div>
+      <div class="row">
+        <label>Theme
+          <select id="themeSelect" onchange="applyTheme(this.value,true)">
+            <option value="default">Indigo/Cyan</option>
+            <option value="apple">Apple-like</option>
+            <option value="neon">Neon</option>
+            <option value="forest">Forest</option>
+          </select>
+        </label>
+        <button id="shareBtn" title="Copy a link to this search">Share</button>
+      </div>
+    </div>
+    <div class="hero">
+      <strong>Unified music search & identity</strong>
+      <p class="tip">Pro tip: Add to Home Screen for full‑screen app mode.</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <nav class="tabs">
+      <button class="active" data-tab="search">Search</button>
+      <button data-tab="identify">Identify</button>
+      <button data-tab="versions">Version Graph</button>
+      <button data-tab="settings">Settings</button>
+      <button data-tab="compliance">Compliance</button>
+    </nav>
+
+    <section id="search" class="tab">
+      <div class="card">
+        <h3>Search</h3>
+        <div class="row">
+          <input id="q" placeholder="Try: Song X" style="flex:1" />
+          <select id="platform">
+            <option>Apple Music</option><option>Spotify</option><option>YouTube Music</option><option>Amazon Music</option><option>Tidal</option>
+          
+  <option>SoundCloud</option>
+</select>
+          <button onclick="doSearch()">Search</button>
+        </div>
+        <p class="notice">Demo only — buttons simulate “Open on {platform}”.</p>
+      </div>
+      <div id="results" class="grid"></div>
+    </section>
+
+    <section id="identify" class="tab" style="display:none">
+      <div class="card">
+        <h3>Identify</h3>
+        <div class="notice">ACR exposure is <b>ON only</b> for <b>Apple/Shazam</b> and <b>Standalone</b>. Others: disabled.</div>
+        <div style="text-align:center;padding:18px 0">
+          <div id="pulse" class="pulse" style="display:none"></div>
+          <div id="match" style="margin-top:12px"></div>
+          <div class="row" style="justify-content:center;gap:8px;margin-top:10px">
+            <select id="identifyMode"><option>AppleShazam</option><option>Standalone</option><option disabled>Other (locked)</option></select>
+            <button onclick="runIdentify()">Identify (demo)</button>
+          </div>
+        </div>
+        <div class="lock">Clarity Lock: We route; platforms host playback.</div>
+      </div>
+    </section>
+
+    <section id="versions" class="tab" style="display:none">
+      <div class="card">
+        <h3>Version Graph</h3>
+  <div id="uv-version-graph" class="notice">This area will populate from search results.</div>
+</div>
+    </section>
+
+    <section id="settings" class="tab" style="display:none">
+      <div class="card">
+        <h3>Settings → Config (LOCKED)</h3>
+        <ul class="notice">
+          <li>Identify exposure: <b>Apple/Shazam & Standalone only</b></li>
+          <li>Legacy Resolver reroutes: Spinlet, Rdio, Beats Music</li>
+          <li>Analytics: view events only (no PII)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="compliance" class="tab" style="display:none">
+      <div class="card">
+        <h3>Compliance & Notes</h3>
+        <ul class="notice">
+          <li>We never bypass platform playback or download media.</li>
+          <li>“Open on {platform}” is a simulated handoff.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>UniVibe • Demo UI • v1.1</footer>
+
+<div id="toast" class="toast">Link copied</div>
+
+<script>
+  // tabs
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const id=b.dataset.tab;
+    document.querySelectorAll('.tab').forEach(s=>s.style.display=(s.id===id?'block':'none'));
+  });
+
+  // themes + persistence
+  const THEMES={
+    default:{bg:'#0b0b10',card:'#111827',text:'#e5e7eb',muted:'#9ca3af',brand:'#7c3aed',brand2:'#06b6d4'},
+    apple:{bg:'#ffffff',card:'#f5f5f7',text:'#111827',muted:'#6b7280',brand:'#0a84ff',brand2:'#34c759'},
+    neon:{bg:'#0a0612',card:'#140a23',text:'#f5f3ff',muted:'#c4b5fd',brand:'#ff2d55',brand2:'#0ea5e9'},
+    forest:{bg:'#0b1210',card:'#0e1714',text:'#e6fffa',muted:'#94a3b8',brand:'#22c55e',brand2:'#14b8a6'}
+  };
+  function applyTheme(n, persist=false){
+    const t=THEMES[n]||THEMES.default, r=document.documentElement.style;
+    r.setProperty('--bg',t.bg);r.setProperty('--card',t.card);r.setProperty('--text',t.text);
+    r.setProperty('--muted',t.muted);r.setProperty('--brand',t.brand);r.setProperty('--brand2',t.brand2);
+    if(persist){ try{ localStorage.setItem('uv_theme', n); }catch(e){} }
+  }
+  (function initTheme(){
+    const saved = (localStorage && localStorage.getItem('uv_theme')) || 'default';
+    document.getElementById('themeSelect').value = saved;
+    applyTheme(saved,false);
+  })();
+
+  // SHARE — copies a deep link with query in hash
+  const toast = document.getElementById('toast');
+  document.getElementById('shareBtn').onclick = async () => {
+    const q = (document.getElementById('q').value||'').trim();
+    const url = location.origin + location.pathname + (q?('#q='+encodeURIComponent(q)):'');    
+    try{
+      await navigator.clipboard.writeText(url);
+      toast.textContent='Link copied'; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1100);
+    }catch{
+      // fallback
+      prompt('Copy link:', url);
+    }
+  };
+  // On load, if hash has #q=, prefill and auto-search
+  (function readHash(){
+    const m = location.hash.match(/^#q=(.*)$/);
+    if(m){ const q = decodeURIComponent(m[1]); const el=document.getElementById('q'); el.value=q; doSearch(); }
+  })();
+
+  // SEARCH via Apple JSONP (no CORS issues), plus deep links
+  function doSearch(){
+    const q=(document.getElementById('q').value||'Song X').trim();
+    const wrap=document.getElementById('results');
+    wrap.innerHTML='<div class="notice">Searching Apple…</div>';
+
+    const cb='uv_cb_'+Date.now();
+    const url='https://itunes.apple.com/search?media=music&entity=song&limit=12&term='+encodeURIComponent(q)+'&callback='+cb;
+
+    window[cb]=function(data){
+      wrap.innerHTML='';
+      (data.results||[]).forEach(item=>{
+        const title = `${item.trackName} — ${item.artistName}`;
+        const art   = (item.artworkUrl100||'').replace('100x100','200x200');
+        const prev  = item.previewUrl||'';
+
+        const openApple  = item.trackViewUrl || '';
+        const openArtist = item.artistViewUrl || '';
+        const openSpotify= 'https://open.spotify.com/search/'+encodeURIComponent(title);
+        const openYTM    = 'https://music.youtube.com/search?q='+encodeURIComponent(title);
+
+        const card=document.createElement('div');
+        card.className='card';
+        card.innerHTML = `
+          <div class="row" style="gap:12px; align-items:flex-start">
+            ${art ? `<img src="${art}" width="64" height="64" style="border-radius:12px">` : ''}
+            <div style="flex:1">
+              <h3>${title}</h3>
+              <div class="notice">${item.collectionName||''}</div>
+              <div class="row" style="gap:8px; margin-top:8px; flex-wrap:wrap">
+                ${openApple ? `<button onclick="window.open('${openApple}','_blank')">Apple Track</button>`:''}
+                ${openArtist ? `<button onclick="window.open('${openArtist}','_blank')">Apple Artist</button>`:''}
+                <button onclick="window.open('${openSpotify}','_blank')">Open on Spotify</button>
+                <button onclick="window.open('${openYTM}','_blank')">YouTube Music</button>
+                ${prev ? `<a href="${prev}" target="_blank" rel="noopener" style="display:inline-block;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:#0f1624;color:inherit;text-decoration:none">Preview 30s</a>`:''}
+              </div>
+            </div>
+          </div>`;
+        wrap.appendChild(card);
+      });
+      if(!wrap.children.length){ wrap.innerHTML='<div class="notice">No results — try another term.</div>'; }
+      cleanup();
+    };
+
+    const s=document.createElement('script');
+    s.id=cb; s.src=url;
+    s.onerror=function(){ wrap.innerHTML='<div class="notice">Search failed. Try again.</div>'; cleanup(); };
+    document.body.appendChild(s);
+
+    function cleanup(){ try{ delete window[cb]; }catch{} const el=document.getElementById(cb); if(el) el.remove(); }
+  }
+
+  // identify demo
+  function runIdentify(){
+    const m=document.getElementById('identifyMode').value;
+    if(m!=='AppleShazam' && m!=='Standalone'){ alert('Identify is locked OFF for this surface.'); return; }
+    const pulse=document.getElementById('pulse'), match=document.getElementById('match');
+    match.textContent=''; pulse.style.display='block';
+    setTimeout(()=>{ pulse.style.display='none'; match.innerHTML="<div class='badge'>Match</div><div style='margin-top:6px'>Song X — Artist Y</div><div class='notice'>Confidence 93%</div>"; },1600);
+  }
+
+  // Register service worker (optional)
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+  }
+</script>
+
+<script>
+// === RECOVER PATCH — keep Preview visible, keep it on top, strict platform filtering, and live Version Graph ===
+(function(){
+  const results = document.getElementById('results');
+  const select  = document.getElementById('platform');
+  function isPreviewNode(el){
+    if (!el) return false;
+    const tag = (el.tagName||'').toLowerCase();
+    if (tag === 'audio') return true;
+    const txt = (el.textContent||'').toLowerCase();
+    if (txt.includes('preview')) return true;
+    const cls = (el.className||'').toString().toLowerCase();
+    if (cls.includes('preview') || cls.includes('uv-preview')) return true;
+    return false;
+  }
+  function firstActionRow(card){
+    const right = Array.from(card.querySelectorAll('div')).find(d => (d.getAttribute('style')||'').includes('flex:1'));
+    if (!right) return null;
+    return Array.from(right.querySelectorAll('.row')).find(r => r.querySelector('a,button'));
+  }
+  function ensurePreviewButton(card){
+    const row = firstActionRow(card); if (!row) return;
+    // find audio/src
+    let audio = row.querySelector('audio');
+    let src = audio ? audio.getAttribute('src') : '';
+    if (!src){
+      const a = Array.from(row.querySelectorAll('a,button')).find(el => (el.textContent||'').toLowerCase().includes('preview'));
+      if (a && a.href) src = a.href;
+      if (a && !audio && src){ try{ a.remove(); }catch(e){} }
+    }
+    if (!src) return;
+    if (!audio){
+      audio = document.createElement('audio');
+      audio.src = src; audio.preload='none'; audio.style.display='none'; audio.className='uv-preview-audio';
+      row.appendChild(audio);
+    } else {
+      audio.classList.add('uv-preview-audio'); audio.controls=false; audio.style.display='none';
+    }
+    let btn = row.querySelector('.uv-preview-btn');
+    if (!btn){
+      btn = document.createElement('button');
+      btn.className='uv-preview-btn'; btn.textContent='▶ Preview 30s';
+      btn.style.padding='10px 12px'; btn.style.borderRadius='10px';
+      btn.style.border='1px solid rgba(255,255,255,.16)'; btn.style.background='#0f1624'; btn.style.color='inherit';
+      row.insertBefore(btn, row.firstChild);
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('#results .uv-preview-audio').forEach(a=>{ if(a!==audio && !a.paused){ a.pause(); a.currentTime=0; }});
+        document.querySelectorAll('#results .uv-preview-btn').forEach(b=>{ if(b!==btn) b.textContent='▶ Preview 30s'; });
+        if (audio.paused){ audio.play().then(()=>btn.textContent='⏸ Stop').catch(()=>{}); }
+        else { audio.pause(); audio.currentTime=0; btn.textContent='▶ Preview 30s'; }
+      });
+      audio.addEventListener('ended', ()=>{ btn.textContent='▶ Preview 30s'; });
+    }
+    // ensure preview button is the first element in the action row
+    if (row.firstElementChild !== btn){ row.insertBefore(btn, row.firstChild); }
+  }
+  function upgradeCards(){
+    if (!results) return;
+    results.querySelectorAll('.card').forEach(card=> ensurePreviewButton(card));
+  }
+
+  // Strict filter but NEVER hides preview
+  function classify(node){
+    if (node.dataset && node.dataset.uvPlatform) return node.dataset.uvPlatform;
+    let plat = 'Unknown';
+    try{
+      if (node.tagName === 'A' && node.href){
+        const h = new URL(node.href).hostname;
+        if (h.includes('music.apple.com') || h.includes('itunes.apple.com')) plat='Apple Music';
+        else if (h.includes('open.spotify.com')) plat='Spotify';
+        else if (h.includes('music.youtube.com') || h.includes('youtube.com')) plat='YouTube Music';
+        else if (h.includes('music.amazon.')) plat='Amazon Music';
+        else if (h.includes('listen.tidal.com')) plat='Tidal';
+      } else {
+        const t=(node.textContent||'').toLowerCase();
+        if (t.includes('apple')) plat='Apple Music';
+        else if (t.includes('spotify')) plat='Spotify';
+        else if (t.includes('youtube')) plat='YouTube Music';
+        else if (t.includes('amazon')) plat='Amazon Music';
+        else if (t.includes('tidal')) plat='Tidal';
+      }
+    }catch(e){}
+    if (node.dataset) node.dataset.uvPlatform = plat;
+    return plat;
+  }
+  function applyFilter(){
+    if (!results || !select) return;
+    const chosen = (select.value||'Apple Music').trim();
+    results.querySelectorAll('.card .row a, .card .row button').forEach(node=>{
+      if (isPreviewNode(node)) { node.style.display=''; return; } // keep preview visible
+      const plat = classify(node);
+      if (plat === 'Unknown') { node.style.display='none'; return; }
+      node.style.display = (plat === chosen) ? '' : 'none';
+    });
+  }
+
+  // Build a simple Version Graph from visible results (DOM only)
+  function vgBuild(){
+    const sec = document.getElementById('versions'); if (!sec) return;
+    const holder = sec.querySelector('#uv-version-graph'); if (!holder) return;
+    const cards = document.querySelectorAll('#results .card'); if (!cards.length){ holder.innerHTML='<div class="notice">Search to populate the Version Graph.</div>'; return; }
+    function parseTA(text){ const t=(text||'').trim(); let p=t.split('—'); if(p.length<2) p=t.split(' - '); return {title:(p[0]||'').trim(), artist:(p[1]||'').trim()}; }
+    function coreTitle(s){ let t=(s||'').toLowerCase(); t=t.replace(/\([^)]*\)/g,'').replace(/\[[^\]]*\]/g,'').replace(/[-–—]+/g,' ').replace(/\s+/g,' ').trim(); return t; }
+    function roleFrom(s){ const t=(s||'').toLowerCase(); if(/radio\s*edit/.test(t))return'Radio Edit'; if(/(remix|mix\b)/.test(t))return'Remix'; if(/\blive\b/.test(t))return'Live'; if(/(acoustic|cover)/.test(t))return'Cover'; return'Canonical'; }
+    const first = cards[0].querySelector('h3'); if (!first){ holder.innerHTML='<div class="notice">Search to populate the Version Graph.</div>'; return; }
+    const base=parseTA(first.textContent||''); const baseArtist=(base.artist||'').toLowerCase(); const baseCore=coreTitle(base.title);
+    const rows=[]; cards.forEach(c=>{ const h3=c.querySelector('h3'); if(!h3)return; const ta=parseTA(h3.textContent||''); const album=(c.querySelector('.notice')||{}).textContent||''; rows.push({role:roleFrom(ta.title), title:ta.title, artist:ta.artist, notes:album}); });
+    const relevant=rows.filter(r=> (r.artist||'').toLowerCase()===baseArtist || (coreTitle(r.title).includes(baseCore)||baseCore.includes(coreTitle(r.title))) );
+    const seen=new Set(); const dedup=relevant.filter(r=>{ const k=(r.title||'').toLowerCase(); if(seen.has(k)) return false; seen.add(k); return true; });
+    const order={Canonical:0,'Radio Edit':1,Remix:2,Live:3,Cover:4}; dedup.sort((a,b)=>(order[a.role]??9)-(order[b.role]??9));
+    const table=document.createElement('table'); table.innerHTML='<thead><tr><th style="text-align:left;padding:10px;">Role</th><th style="text-align:left;padding:10px;">Title</th><th style="text-align:left;padding:10px;">Artist</th><th style="text-align:left;padding:10px;">Notes</th></tr></thead>';
+    const tb=document.createElement('tbody'); (dedup.length?dedup:rows).forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML='<td style="padding:10px;">'+r.role+'</td><td style="padding:10px;">'+r.title+'</td><td style="padding:10px;">'+(r.artist||'')+'</td><td style="padding:10px;">'+(r.notes||'')+'</td>'; tb.appendChild(tr); });
+    table.appendChild(tb); holder.innerHTML=''; holder.appendChild(table);
+  }
+
+  // Observe and keep things stable
+  function runAll(){ upgradeCards(); applyFilter(); vgBuild(); }
+  if (results){
+    const mo = new MutationObserver(runAll);
+    mo.observe(results, { childList:true, subtree:true });
+  }
+  if (select){ select.addEventListener('change', runAll); }
+  // Initial pass
+  runAll();
+})();
+</script>
+
+
+<script>
+// Re-add SoundCloud buttons safely without touching your render
+(function(){
+  const results = document.getElementById('results');
+  if (!results) return;
+  function ensureSC(){
+    results.querySelectorAll('.card').forEach(card => {
+      const row = card.querySelector('.row'); if (!row) return;
+      if (row.querySelector('[data-uv-sc]')) return;
+      const h3 = card.querySelector('h3'); const title = h3 ? (h3.textContent||'').trim() : '';
+      if (!title) return;
+      const btn = document.createElement('button');
+      btn.textContent = 'SoundCloud';
+      btn.setAttribute('data-uv-sc','1');
+      btn.addEventListener('click', ()=> window.open('https://soundcloud.com/search?q='+encodeURIComponent(title), '_blank'));
+      // Style match to first existing button if present
+      const ref = row.querySelector('button');
+      if (ref){
+        const cs = getComputedStyle(ref);
+        btn.style.padding = cs.padding; btn.style.borderRadius = cs.borderRadius;
+        btn.style.border = cs.border; btn.style.background = cs.backgroundColor; btn.style.color = cs.color;
+        btn.style.marginLeft = '6px';
+      }
+      row.appendChild(btn);
+    });
+  }
+  const mo = new MutationObserver(()=> setTimeout(ensureSC,0));
+  mo.observe(results, { childList:true, subtree:true });
+  ensureSC();
+})();
+</script>
+
+
+<script>
+// Enter-to-search (idempotent, no other changes)
+(function(){
+  function trigger(){ try{ if (typeof window.doSearch === 'function') window.doSearch(); }catch(e){} }
+  function bind(){
+    var q = document.getElementById('q');
+    if (!q || q.dataset._enterBound) return;
+    q.dataset._enterBound = '1';
+    q.addEventListener('keydown', function(e){
+      if (e.key === 'Enter'){ e.preventDefault(); trigger(); }
+    });
+  }
+  if (document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', bind); } else { bind(); }
+  new MutationObserver(bind).observe(document.body, { childList:true, subtree:true });
+})();
+</script>
+
+</body>
+</html>
