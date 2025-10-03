@@ -7,6 +7,6 @@ New in v1.1:
   - Hero section + tip for "Add to Home Screen"
 
 Deploy:
-  1) Drag this folder to Netlify "Upload deploy".
+  1) Drag this folder to Github "Upload deploy".
   2) Hard refresh after publish (Shift+Cmd+R).
   3) Add to Home Screen on iPhone for full-screen.
