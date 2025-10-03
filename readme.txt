@@ -1,4 +1,4 @@
-UniVibe Clean Site (v1.1)
+SykMyx Clean Site (v1.1)
 
 New in v1.1:
   - Theme persists via localStorage
