@@ -1,2 +1,3 @@
+Sitemap: https://www.sykmyx.com/sitemap.xml
 User-agent: *
 Allow: /
