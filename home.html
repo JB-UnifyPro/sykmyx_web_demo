@@ -7,71 +7,61 @@
   <meta name="theme-color" content="#191a23">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #191a23;
+      --bg-dark: #181928;
       --card-dark: #23243a;
+      --strand-dark: #23243a;
       --text-dark: #f0f1f7;
       --muted-dark: #8d94a7;
-      --accent-dark: #8b5cf6;
-      --accent2-dark: #06b6d4;
-      --bg-light: #f7f8fa;
-      --card-light: #e5e7eb;
-      --text-light: #23243a;
-      --muted-light: #8d94a7;
-      --accent-light: #8b5cf6;
-      --accent2-light: #06b6d4;
-      --radius: 18px;
-      --shadow: 0 12px 32px rgba(30,40,60,.18);
-      --transition: 0.3s cubic-bezier(.4,0,.2,1);
-      --logo-size: 44px;
+      --accent: linear-gradient(90deg, #8b5cf6 0%, #06b6d4 100%);
+      --accent2: #06b6d4;
+      --radius: 22px;
+      --shadow: 0 10px 36px rgba(40,40,80,.22);
+      --transition: 0.35s cubic-bezier(.4,0,.2,1);
+      --logo-size: 50px;
+      --gap: 28px;
+      --card-width: 380px;
+      --card-height: 154px;
+      --strand-width: 350px;
+      --strand-height: 130px;
     }
     html, body { height: 100%; margin: 0; }
     body {
       min-height: 100vh;
-      font-family: 'Inter', 'Segoe UI', system-ui, Arial, sans-serif;
-      font-size: 17px;
+      font-family: 'Montserrat', 'Inter', 'Segoe UI', system-ui, Arial, sans-serif;
       background: var(--bg-dark);
       color: var(--text-dark);
       transition: background var(--transition), color var(--transition);
-    }
-    body.light {
-      background: var(--bg-light);
-      color: var(--text-light);
+      letter-spacing: 0.01em;
     }
     header {
       position: sticky; top: 0; z-index: 10;
-      background: rgba(30,36,58,.6);
-      border-bottom: 1px solid rgba(255,255,255,.05);
-      backdrop-filter: blur(8px) saturate(120%);
-    }
-    body.light header {
-      background: rgba(229,231,235,.8);
-      border-bottom: 1px solid #e5e7eb;
+      background: rgba(30,36,58,.7);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(11px) saturate(120%);
     }
     .container {
-      max-width: 960px; margin: 0 auto; padding: 20px 16px;
+      max-width: 1100px; margin: 0 auto; padding: 24px 24px;
     }
     .brand-row {
-      display: flex; align-items: center; gap: 16px;
+      display: flex; align-items: center; gap: 18px;
     }
     .sykmyx-logo {
       width: var(--logo-size); height: var(--logo-size);
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent-dark), var(--accent2-dark));
+      border-radius: 14px;
+      background: var(--accent);
       display: flex; align-items: center; justify-content: center;
-      font-weight: bold; font-size: 1.5rem; color: #fff;
-      box-shadow: 0 2px 10px rgba(20,20,40,0.18);
+      font-weight: 700; font-size: 2rem; color: #fff;
+      box-shadow: 0 0px 14px rgba(80,80,160,0.17);
       letter-spacing: 2px;
       transition: background var(--transition);
-    }
-    body.light .sykmyx-logo {
-      background: linear-gradient(135deg, var(--accent-light), var(--accent2-light));
-      color: #23243a;
+      border: 0;
     }
     h1 {
-      font-weight: 900;
-      font-size: 2.2rem;
+      font-weight: 700;
+      font-size: 2.3rem;
       margin: 0 0 0 6px;
       letter-spacing: 1px;
     }
@@ -83,39 +73,35 @@
       font-size: 15px;
       color: var(--muted-dark);
     }
-    body.light .theme-toggle { color: var(--muted-light); }
     select, button, input {
-      border-radius: 10px;
+      border-radius: 11px;
       border: 1px solid rgba(130,130,150,0.12);
       background: var(--card-dark);
       color: var(--text-dark);
-      padding: 10px 14px;
+      padding: 10px 16px;
       font-size: 16px;
-      transition: background var(--transition), color var(--transition);
+      font-family: 'Montserrat', 'Inter', sans-serif;
+      transition: background var(--transition), color var(--transition), box-shadow .22s;
+      font-weight: 500;
+      outline: none;
     }
-    body.light select, body.light button, body.light input {
-      background: var(--card-light);
-      color: var(--text-light);
-      border: 1px solid #d1d5db;
+    select:focus, input:focus {
+      box-shadow: 0 0 0 2px #8b5cf6;
+      border-color: #8b5cf6;
     }
     .hero {
-      background: linear-gradient(95deg, var(--accent-dark) 0%, var(--accent2-dark) 100%);
+      background: var(--accent);
       border-radius: var(--radius);
       color: #fff;
-      padding: 24px 20px;
-      margin-top: 18px;
+      padding: 28px 26px 20px 26px;
+      margin-top: 22px;
       box-shadow: var(--shadow);
-      display: flex; flex-direction: column; gap: 8px;
+      display: flex; flex-direction: column; gap: 9px;
     }
-    body.light .hero {
-      background: linear-gradient(95deg, var(--accent-light) 0%, var(--accent2-light) 100%);
-      color: #23243a;
-    }
-    .hero strong { font-size: 1.25rem; letter-spacing: 1px; }
+    .hero strong { font-size: 1.3rem; letter-spacing: 1px; }
     .hero .tip { font-size: 15px; color: rgba(255,255,255,0.82); margin-top: 8px; }
-    body.light .hero .tip { color: #23243a; }
     nav.tabs {
-      display: flex; gap: 10px; margin: 26px 0 20px 0; flex-wrap: wrap;
+      display: flex; gap: 13px; margin: 32px 0 22px 0; flex-wrap: wrap;
       background: transparent;
     }
     nav.tabs button {
@@ -123,90 +109,235 @@
       color: var(--muted-dark);
       border: none;
       border-radius: 999px;
-      padding: 11px 18px;
+      padding: 12px 22px;
       font-weight: 600;
       font-size: 15px;
       cursor: pointer;
-      transition: background var(--transition), color var(--transition);
+      transition: background var(--transition), color var(--transition), box-shadow .22s;
+      box-shadow: none;
+      margin-right: 1px;
     }
     nav.tabs button.active {
-      background: linear-gradient(90deg, var(--accent-dark), var(--accent2-dark));
+      background: var(--accent);
       color: #fff;
       font-weight: 700;
-      box-shadow: 0 2px 8px rgba(140,90,246,0.12);
-    }
-    body.light nav.tabs button {
-      background: var(--card-light);
-      color: var(--muted-light);
-    }
-    body.light nav.tabs button.active {
-      background: linear-gradient(90deg, var(--accent-light), var(--accent2-light));
-      color: #23243a;
+      box-shadow: 0 2px 10px rgba(140,90,246,0.12);
+      transform: scale(1.08);
     }
     .card {
       background: var(--card-dark);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 20px;
+      padding: 22px 26px;
       margin-bottom: 20px;
-      border: 1px solid rgba(130,130,150,0.12);
-      transition: background var(--transition), color var(--transition);
-    }
-    body.light .card {
-      background: var(--card-light);
-      color: var(--text-light);
-      border: 1px solid #e5e7eb;
-    }
-    .notice { font-size: 14px; color: var(--muted-dark); }
-    body.light .notice { color: var(--muted-light); }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
-      margin-top: 10px;
-    }
-    .audio-controls {
+      border: 1px solid rgba(130,130,150,0.10);
+      transition: background var(--transition), color var(--transition), box-shadow .18s;
+      min-width: var(--card-width);
+      max-width: 99vw;
+      height: var(--card-height);
       display: flex;
-      gap: 8px;
-      align-items: center;
-      margin-top: 8px;
+      align-items: flex-start;
+      gap: 22px;
+      position: relative;
+      overflow: hidden;
     }
-    .audio-controls button {
-      background: #23243a;
-      color: #8b5cf6;
+    .card:hover {
+      box-shadow: 0 18px 44px rgba(80,80,160,0.22);
+      background: linear-gradient(92deg, #252746 0%, #23243a 100%);
+    }
+    .art {
+      border-radius: 14px;
+      width: 84px;
+      height: 84px;
+      box-shadow: 0 4px 18px rgba(30,36,58,0.13);
+      object-fit: cover;
+      background: #282a3d;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+    .card-info {
+      flex:1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: flex-start;
+    }
+    .track-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      letter-spacing: 0.012em;
+      margin-bottom: 0px;
+      margin-top: 2px;
+      color: #fff;
+      text-shadow: 0 1px 0 #23243a;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .track-album {
+      font-size: 0.97rem;
+      color: var(--muted-dark);
+      margin-bottom: 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .platform-links {
+      margin-top: 6px;
+      display: flex;
+      gap: 13px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .platform-links button {
+      background: linear-gradient(90deg,#8b5cf6,#06b6d4);
+      color: #fff;
       border: none;
+      font-weight: 600;
+      font-size: 0.98rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .18s, color .18s, box-shadow .22s;
+      box-shadow: none;
+      outline: none;
+    }
+    .platform-links button:hover {
+      background: linear-gradient(90deg,#06b6d4,#8b5cf6);
+      color: #fff;
+      box-shadow: 0 3px 12px rgba(80,80,160,0.12);
+    }
+    .audio-container {
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #23243a;
       border-radius: 8px;
       padding: 6px 10px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: background .2s;
+      box-shadow: 0 1px 6px rgba(80,80,160,0.08);
     }
-    .audio-controls button:hover {
+    .audio-btn {
+      background: none;
+      border: none;
+      color: #8b5cf6;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 4px 7px;
+      border-radius: 7px;
+      margin-right: 2px;
+      transition: background .18s, color .18s;
+    }
+    .audio-btn:hover {
       background: #8b5cf6;
       color: #fff;
     }
-    .audio-controls span {
-      font-size: 13px;
+    .audio-time {
+      font-size: 0.97rem;
       color: #8d94a7;
-      min-width: 55px;
+      min-width: 48px;
       text-align: center;
+      font-family: 'Montserrat', sans-serif;
     }
+    .version-graph-title {
+      font-size: 1.13rem;
+      font-weight: 600;
+      margin-top: 38px;
+      margin-bottom: 10px;
+      color: #8b5cf6;
+      letter-spacing: 0.012em;
+    }
+    .version-graph-strand {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+      padding: 20px 0;
+      background: #23243a;
+      border-radius: 18px;
+      box-shadow: 0 4px 16px rgba(80,80,160,0.09);
+      overflow-x: auto;
+      margin-bottom: 24px;
+      margin-top: 2px;
+    }
+    .version-card {
+      min-width: var(--strand-width);
+      max-width: 99vw;
+      height: var(--strand-height);
+      background: linear-gradient(97deg,#2e2f47 0%,#23243a 100%);
+      border-radius: 18px;
+      box-shadow: 0 0px 16px rgba(80,80,160,0.14);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 18px;
+      position: relative;
+      transition: box-shadow .18s;
+      border: 1px solid #272846;
+    }
+    .version-card:hover {
+      box-shadow: 0 8px 22px #8b5cf633;
+    }
+    .version-art {
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #282a3d;
+      flex-shrink: 0;
+      box-shadow: 0 2px 9px #8b5cf611;
+    }
+    .version-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      justify-content: flex-start;
+    }
+    .version-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0;
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .version-type {
+      font-size: 0.93rem;
+      color: #8b5cf6;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+    .version-arrow {
+      font-size: 2.2rem;
+      color: #8b5cf6;
+      margin-right: -13px;
+      margin-left: -13px;
+      opacity: 0.3;
+      user-select: none;
+    }
+    .notice { font-size: 14px; color: var(--muted-dark); }
     footer {
       color: var(--muted-dark); font-size: 13px;
-      padding: 36px 16px; text-align: center;
+      padding: 44px 16px; text-align: center;
       margin-top: 48px;
       border-top: 1px solid rgba(80,90,110,0.13);
     }
-    body.light footer { color: var(--muted-light); border-top: 1px solid #e5e7eb; }
-    @media (max-width: 640px) {
-      .container { padding: 12px 6px; }
-      h1 { font-size: 1.4rem; }
-      .sykmyx-logo { width: 34px; height: 34px; font-size: 1rem; }
-      .hero { padding: 16px 10px; }
-      .card { padding: 12px; }
-      nav.tabs button { padding: 8px 12px; font-size: 13px; }
-      .audio-controls span { min-width: 40px; font-size: 12px;}
-      .audio-controls button { font-size: 13px; padding: 5px 7px;}
+    @media (max-width: 900px) {
+      .card { min-width: 100%; flex-direction: column; align-items: flex-start; height: auto;}
+      .art { width: 64px; height: 64px;}
+      .version-graph-strand { gap: 18px; padding: 12px 0;}
+      .version-card { min-width: 210px; height: auto; padding: 11px 7px;}
+    }
+    @media (max-width: 580px) {
+      .container { padding: 11px 3px;}
+      h1 { font-size: 1.2rem;}
+      .sykmyx-logo { width: 32px; height: 32px; font-size: 1.1rem;}
+      .hero { padding: 13px 7px;}
+      .card { padding: 10px 6px;}
+      .version-graph-title { font-size: 0.95rem;}
     }
   </style>
 </head>
@@ -242,69 +373,78 @@
     </nav>
     <section id="search" class="tab">
       <div class="card">
-        <h3>Search for music</h3>
-        <div style="display:flex; gap:12px; align-items:center;">
-          <input id="q" placeholder="Try: Song X" style="flex:1" />
-          <select id="platform">
-            <option value="apple">Apple Music</option>
-            <option value="spotify">Spotify</option>
-            <option value="ytmusic">YouTube Music</option>
-            <option value="amazon">Amazon Music</option>
-            <option value="tidal">Tidal</option>
-            <option value="soundcloud">SoundCloud</option>
-          </select>
-          <button id="searchBtn">Search</button>
+        <div class="card-info">
+          <h3>Search for music</h3>
+          <div style="display:flex; gap:13px; align-items:center;">
+            <input id="q" placeholder="Try: Song X" style="flex:1" />
+            <select id="platform">
+              <option value="apple">Apple Music</option>
+              <option value="spotify">Spotify</option>
+              <option value="ytmusic">YouTube Music</option>
+              <option value="amazon">Amazon Music</option>
+              <option value="tidal">Tidal</option>
+              <option value="soundcloud">SoundCloud</option>
+            </select>
+            <button id="searchBtn">Search</button>
+          </div>
+          <p class="notice">Demo: Buttons show only the selected platform. "Preview 30s" plays audio in-site.</p>
         </div>
-        <p class="notice">Demo: Buttons show only the selected platform. "Preview 30s" plays audio in-site.</p>
       </div>
-      <div id="results" class="grid"></div>
+      <div id="results" style="display:flex;gap:var(--gap);flex-wrap:wrap;"></div>
+      <div id="versionGraphBlock"></div>
     </section>
     <section id="identify" class="tab" style="display:none">
       <div class="card">
-        <h3>Identify a track</h3>
-        <div class="notice">ACR ON for Apple/Shazam & Standalone only. Other platforms disabled.</div>
-        <div style="text-align:center; padding:16px 0;">
-          <div id="pulse" style="display:none; margin: auto; width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-dark), var(--accent2-dark)); box-shadow: 0 0 0 0 rgba(140,90,246,.25);"></div>
-          <div id="match" style="margin-top:12px"></div>
-          <div style="display:flex; justify-content:center; gap:8px; margin-top:10px;">
-            <select id="identifyMode"><option>AppleShazam</option><option>Standalone</option><option disabled>Other (locked)</option></select>
-            <button onclick="runIdentify()">Identify (demo)</button>
+        <div class="card-info">
+          <h3>Identify a track</h3>
+          <div class="notice">ACR ON for Apple/Shazam & Standalone only. Other platforms disabled.</div>
+          <div style="text-align:center; padding:16px 0;">
+            <div id="pulse" style="display:none; margin: auto; width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #06b6d4); box-shadow: 0 0 0 0 rgba(140,90,246,.25);"></div>
+            <div id="match" style="margin-top:12px"></div>
+            <div style="display:flex; justify-content:center; gap:8px; margin-top:10px;">
+              <select id="identifyMode"><option>AppleShazam</option><option>Standalone</option><option disabled>Other (locked)</option></select>
+              <button onclick="runIdentify()">Identify (demo)</button>
+            </div>
           </div>
+          <div class="notice">Clarity Lock: SykMyx routes, platforms host playback.</div>
         </div>
-        <div class="notice">Clarity Lock: SykMyx routes, platforms host playback.</div>
       </div>
     </section>
     <section id="versions" class="tab" style="display:none">
       <div class="card">
-        <h3>Versions (Swipe to browse)</h3>
-        <div id="versionCards" class="grid">
+        <div class="card-info">
+          <h3>Versions (Swipe to browse)</h3>
           <div class="notice">Search to populate versions. Swipe feature coming next!</div>
         </div>
       </div>
     </section>
     <section id="settings" class="tab" style="display:none">
       <div class="card">
-        <h3>Settings</h3>
-        <ul class="notice">
-          <li>Identify exposure: Apple/Shazam & Standalone only</li>
-          <li>Legacy resolver reroutes supported</li>
-          <li>Analytics: view events only (no PII)</li>
-        </ul>
+        <div class="card-info">
+          <h3>Settings</h3>
+          <ul class="notice">
+            <li>Identify exposure: Apple/Shazam & Standalone only</li>
+            <li>Legacy resolver reroutes supported</li>
+            <li>Analytics: view events only (no PII)</li>
+          </ul>
+        </div>
       </div>
     </section>
     <section id="compliance" class="tab" style="display:none">
       <div class="card">
-        <h3>Compliance & Notes</h3>
-        <ul class="notice">
-          <li>No media download or unauthorized playback.</li>
-          <li>“Open on {platform}” is a simulated, compliant handoff.</li>
-        </ul>
+        <div class="card-info">
+          <h3>Compliance & Notes</h3>
+          <ul class="notice">
+            <li>No media download or unauthorized playback.</li>
+            <li>“Open on {platform}” is a simulated, compliant handoff.</li>
+          </ul>
+        </div>
       </div>
     </section>
   </div>
 </main>
 <footer>
-  SykMyx • Modern Demo UI • v1.1
+  SykMyx • Modern Demo UI • v1.5
 </footer>
 <script>
   // Theme switching logic
@@ -334,56 +474,23 @@
     document.querySelectorAll('.tab').forEach(s => s.style.display = (s.id === id ? 'block' : 'none'));
   });
 
-  // Search logic
+  // --- Search logic ---
+  let lastResults = [];
+  let lastVersions = [];
+  let lastPlatform = 'apple';
+
   function doSearch() {
     const q = (document.getElementById('q').value || 'Song X').trim();
     const platform = document.getElementById('platform').value;
+    lastPlatform = platform;
     const wrap = document.getElementById('results');
-    wrap.innerHTML = '<div class="notice">Searching…</div>';
+    wrap.innerHTML = '<div class="notice" style="margin-top:18px;">Searching…</div>';
     const cb = 'syk_cb_' + Date.now();
-    const url = 'https://itunes.apple.com/search?media=music&entity=song&limit=12&term=' + encodeURIComponent(q) + '&callback=' + cb;
+    const url = 'https://itunes.apple.com/search?media=music&entity=song&limit=8&term=' + encodeURIComponent(q) + '&callback=' + cb;
     window[cb] = function(data){
-      wrap.innerHTML = '';
-      (data.results || []).forEach(item => {
-        const title = `${item.trackName} — ${item.artistName}`;
-        const art   = (item.artworkUrl100||'').replace('100x100','200x200');
-        const prev  = item.previewUrl||'';
-        const openApple  = item.trackViewUrl || '';
-        const openArtist = item.artistViewUrl || '';
-        const openSpotify= 'https://open.spotify.com/search/'+encodeURIComponent(title);
-        const openYTM    = 'https://music.youtube.com/search?q='+encodeURIComponent(title);
-
-        // Platform filtering logic
-        let buttonsHTML = '';
-        if(platform === 'apple') {
-          if(openApple) buttonsHTML += `<button onclick="window.open('${openApple}','_blank')">Apple Track</button>`;
-          if(openArtist) buttonsHTML += `<button onclick="window.open('${openArtist}','_blank')">Apple Artist</button>`;
-          if(prev) buttonsHTML += makeAudioPlayer(prev);
-        }
-        if(platform === 'spotify') {
-          buttonsHTML += `<button onclick="window.open('${openSpotify}','_blank')">Spotify</button>`;
-        }
-        if(platform === 'ytmusic') {
-          buttonsHTML += `<button onclick="window.open('${openYTM}','_blank')">YouTube Music</button>`;
-        }
-        // Add more platforms here as you connect APIs.
-
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div style="display:flex; gap:12px; align-items:flex-start;">
-            ${art ? `<img src="${art}" width="64" height="64" style="border-radius:12px">` : ''}
-            <div style="flex:1">
-              <h3>${title}</h3>
-              <div class="notice">${item.collectionName||''}</div>
-              <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
-                ${buttonsHTML}
-              </div>
-            </div>
-          </div>`;
-        wrap.appendChild(card);
-      });
-      if(!wrap.children.length){ wrap.innerHTML='<div class="notice">No results — try another term.</div>'; }
+      lastResults = data.results || [];
+      renderResults();
+      fetchVersions(q, lastResults); // Get related versions
       cleanup();
     };
     const s = document.createElement('script');
@@ -393,22 +500,76 @@
     function cleanup(){ try{ delete window[cb]; }catch{} const el=document.getElementById(cb); if(el) el.remove(); }
   }
 
-  // Preview audio player logic
+  function renderResults() {
+    const platform = document.getElementById('platform').value;
+    lastPlatform = platform;
+    const wrap = document.getElementById('results');
+    wrap.innerHTML = '';
+    lastResults.forEach(item => {
+      const art   = (item.artworkUrl100||'').replace('100x100','200x200');
+      const title = `${item.trackName} — ${item.artistName}`;
+      const album = item.collectionName||'';
+      const prev  = item.previewUrl||'';
+      const openApple  = item.trackViewUrl || '';
+      const openArtist = item.artistViewUrl || '';
+      const openSpotify= 'https://open.spotify.com/search/'+encodeURIComponent(title);
+      const openYTM    = 'https://music.youtube.com/search?q='+encodeURIComponent(title);
+
+      // Platform filtering logic
+      let linksHTML = '';
+      if(platform === 'apple') {
+        if(openApple) linksHTML += `<button onclick="window.open('${openApple}','_blank')">Apple Track</button>`;
+        if(openArtist) linksHTML += `<button onclick="window.open('${openArtist}','_blank')">Apple Artist</button>`;
+      }
+      if(platform === 'spotify') {
+        linksHTML += `<button onclick="window.open('${openSpotify}','_blank')">Spotify</button>`;
+      }
+      if(platform === 'ytmusic') {
+        linksHTML += `<button onclick="window.open('${openYTM}','_blank')">YouTube Music</button>`;
+      }
+      // Add audio player for Apple only (since preview URLs are Apple)
+      let audioHTML = '';
+      if(platform === 'apple' && prev) {
+        audioHTML = makeAudioPlayer(prev);
+      }
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img class="art" src="${art}" alt="Album Art">
+        <div class="card-info">
+          <div class="track-title">${title}</div>
+          <div class="track-album">${album}</div>
+          <div class="platform-links">${linksHTML}</div>
+          ${audioHTML}
+        </div>
+      `;
+      wrap.appendChild(card);
+    });
+    if(!wrap.children.length){ wrap.innerHTML='<div class="notice">No results — try another term.</div>'; }
+  }
+
+  // --- Platform dropdown triggers live filtering ---
+  document.getElementById('platform').addEventListener('change', function() {
+    lastPlatform = this.value;
+    renderResults();
+    renderVersionGraph();
+  });
+
+  // --- Audio Player ---
   function makeAudioPlayer(url) {
     const id = 'aud_' + Math.floor(Math.random()*1000000);
     return `
-      <div class="audio-controls" data-url="${url}" id="${id}">
-        <button onclick="playAudio('${id}')">▶️</button>
-        <button onclick="pauseAudio('${id}')">⏸️</button>
-        <button onclick="stopAudio('${id}')">⏹️</button>
-        <button onclick="rewindAudio('${id}')">⏪</button>
-        <button onclick="forwardAudio('${id}')">⏩</button>
-        <span id="${id}_time">0:00</span>
+      <div class="audio-container" data-url="${url}" id="${id}">
+        <button class="audio-btn" onclick="playAudio('${id}')">▶️</button>
+        <button class="audio-btn" onclick="pauseAudio('${id}')">⏸️</button>
+        <button class="audio-btn" onclick="stopAudio('${id}')">⏹️</button>
+        <button class="audio-btn" onclick="rewindAudio('${id}')">⏪</button>
+        <button class="audio-btn" onclick="forwardAudio('${id}')">⏩</button>
+        <span class="audio-time" id="${id}_time">0:00</span>
       </div>
     `;
   }
-
-  // Only one audio plays at a time
   let currentAudio = null, currentTimer = null;
   function playAudio(id) {
     stopAllAudio();
@@ -439,7 +600,7 @@
   function stopAllAudio() {
     if(currentAudio) { currentAudio.pause(); currentAudio = null; }
     if(currentTimer) clearInterval(currentTimer);
-    document.querySelectorAll('.audio-controls span').forEach(e => e.textContent = '0:00');
+    document.querySelectorAll('.audio-time').forEach(e => e.textContent = '0:00');
   }
   function updateAudioTime(id, time, duration) {
     const s = document.getElementById(id+'_time');
@@ -457,6 +618,60 @@
   });
   document.getElementById('searchBtn').onclick = doSearch;
 
+  // --- Version graph ---
+  function fetchVersions(query, hits) {
+    // Simulate with sample data based on hits (in production, fetch from API)
+    // We'll use the first hit as the "main version", then show remixes, live, acoustic, etc.
+    lastVersions = [];
+    if(hits.length) {
+      const base = hits[0];
+      lastVersions = [
+        {
+          type: "Original",
+          title: base.trackName + " — " + base.artistName,
+          art: (base.artworkUrl100||'').replace('100x100','200x200')
+        },
+        {
+          type: "Live",
+          title: base.trackName + " (Live) — " + base.artistName,
+          art: (base.artworkUrl100||'').replace('100x100','200x200')
+        },
+        {
+          type: "Remix",
+          title: base.trackName + " (Remix) — DJ Example",
+          art: (base.artworkUrl100||'').replace('100x100','200x200')
+        },
+        {
+          type: "Acoustic",
+          title: base.trackName + " (Acoustic) — " + base.artistName,
+          art: (base.artworkUrl100||'').replace('100x100','200x200')
+        }
+      ];
+    }
+    renderVersionGraph();
+  }
+
+  function renderVersionGraph() {
+    const block = document.getElementById('versionGraphBlock');
+    block.innerHTML = '';
+    if(!lastVersions.length) return;
+    let graphHTML = '<div class="version-graph-title">Related Versions</div>';
+    graphHTML += '<div class="version-graph-strand">';
+    lastVersions.forEach((v,i) => {
+      graphHTML += `
+        <div class="version-card">
+          <img class="version-art" src="${v.art}" alt="Version Art">
+          <div class="version-info">
+            <div class="version-title">${v.title}</div>
+            <div class="version-type">${v.type}</div>
+          </div>
+        </div>
+        ${i !== lastVersions.length-1 ? '<div class="version-arrow">➔</div>' : ''}
+      `;
+    });
+    graphHTML += '</div>';
+    block.innerHTML = graphHTML;
+  }
 </script>
 </body>
 </html>
