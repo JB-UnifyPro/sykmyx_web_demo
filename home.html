@@ -183,40 +183,39 @@
       padding: 8px 14px;
       border-radius: 8px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
     }
     .platform-links button:hover {
       background: linear-gradient(90deg,#06b6d4,#8b5cf6);
       color: #fff;
       box-shadow: 0 3px 12px rgba(80,80,160,0.12);
     }
-    .audio-container {
-      margin-top: 6px;
+    .audio-controls {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
+      margin-top: 7px;
+    }
+    .audio-controls button {
       background: #23243a;
-      border-radius: 8px;
-      padding: 6px 10px;
-      box-shadow: 0 1px 6px rgba(80,80,160,0.08);
-    }
-    .audio-btn {
-      background: none;
-      border: none;
       color: #8b5cf6;
-      font-size: 1.1rem;
-      cursor: pointer;
-      padding: 4px 7px;
+      border: none;
       border-radius: 7px;
-      margin-right: 2px;
+      padding: 5px 9px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background .2s;
     }
-    .audio-btn:hover {
+    .audio-controls button:hover {
       background: #8b5cf6;
       color: #fff;
     }
-    .audio-time {
-      font-size: 0.97rem;
+    .audio-controls span {
+      font-size: 13px;
       color: #8d94a7;
-      min-width: 48px;
+      min-width: 46px;
       text-align: center;
       font-family: 'Montserrat', sans-serif;
     }
@@ -286,6 +285,7 @@
       font-weight: 500;
       margin-bottom: 3px;
     }
+    .notice { font-size: 14px; color: var(--muted-dark);}
     .version-arrow {
       font-size: 2.2rem;
       color: #8b5cf6;
@@ -294,7 +294,6 @@
       opacity: 0.3;
       user-select: none;
     }
-    .notice { font-size: 14px; color: var(--muted-dark);}
     footer {
       color: var(--muted-dark); font-size: 13px;
       padding: 44px 16px; text-align: center;
@@ -363,7 +362,7 @@
             </select>
             <button id="searchBtn">Search</button>
           </div>
-          <p class="notice">Cards show only real platform links. No blank or misleading buttons. 30s preview shows only when available. Versions tab updates with results.</p>
+          <p class="notice">Cards show only real platform links. 30s preview with play/pause/rewind/forward when available. Versions tab updates with results.</p>
         </div>
       </div>
       <div id="results" style="display:flex;gap:var(--gap);flex-wrap:wrap;"></div>
@@ -420,10 +419,9 @@
   </div>
 </main>
 <footer>
-  SykMyx • Modern Demo UI • v1.9
+  SykMyx • Modern Demo UI • v2.0
 </footer>
 <script>
-  // Theme switching logic
   const themeSelect = document.getElementById('themeSelect');
   function setTheme(mode) {
     if(mode === 'auto') {
@@ -450,7 +448,6 @@
     document.querySelectorAll('.tab').forEach(s => s.style.display = (s.id === id ? 'block' : 'none'));
   });
 
-  // --- Search logic ---
   let lastResults = [];
   let lastVersions = [];
   let lastPlatform = 'apple';
@@ -466,7 +463,7 @@
     window[cb] = function(data){
       lastResults = data.results || [];
       renderResults();
-      fetchVersions(q, lastResults); // Get related versions
+      fetchVersions(q, lastResults);
       cleanup();
     };
     const s = document.createElement('script');
@@ -474,6 +471,59 @@
     s.onerror = function(){ wrap.innerHTML='<div class="notice">Search failed. Try again.'; cleanup(); };
     document.body.appendChild(s);
     function cleanup(){ try{ delete window[cb]; }catch{} const el=document.getElementById(cb); if(el) el.remove(); }
+  }
+
+  function makeAudioPlayer(url, idprefix) {
+    const id = idprefix + '_' + Math.floor(Math.random()*1000000);
+    return `
+      <div class="audio-controls" id="${id}" data-url="${url}">
+        <button onclick="playAudio('${id}')">▶️</button>
+        <button onclick="pauseAudio('${id}')">⏸️</button>
+        <button onclick="stopAudio('${id}')">⏹️</button>
+        <button onclick="rewindAudio('${id}')">⏪</button>
+        <button onclick="forwardAudio('${id}')">⏩</button>
+        <span id="${id}_time">0:00</span>
+      </div>
+    `;
+  }
+  let currentAudio = null, currentTimer = null;
+  function playAudio(id) {
+    stopAllAudio();
+    const el = document.getElementById(id);
+    if(!el) return;
+    const url = el.getAttribute('data-url');
+    currentAudio = new Audio(url);
+    currentAudio.play();
+    currentAudio.ontimeupdate = () => updateAudioTime(id, currentAudio.currentTime, currentAudio.duration);
+    currentAudio.onended = () => stopAudio(id);
+    currentTimer = setInterval(() => updateAudioTime(id, currentAudio.currentTime, currentAudio.duration), 200);
+  }
+  function pauseAudio(id) {
+    if(currentAudio) currentAudio.pause();
+  }
+  function stopAudio(id) {
+    if(currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+    updateAudioTime(id, 0, currentAudio ? currentAudio.duration : 0);
+    if(currentTimer) clearInterval(currentTimer);
+    currentAudio = null;
+  }
+  function rewindAudio(id) {
+    if(currentAudio) { currentAudio.currentTime = Math.max(currentAudio.currentTime - 5, 0); }
+  }
+  function forwardAudio(id) {
+    if(currentAudio) { currentAudio.currentTime = Math.min(currentAudio.currentTime + 5, currentAudio.duration); }
+  }
+  function stopAllAudio() {
+    if(currentAudio) { currentAudio.pause(); currentAudio = null; }
+    if(currentTimer) clearInterval(currentTimer);
+    document.querySelectorAll('.audio-controls span').forEach(e => e.textContent = '0:00');
+  }
+  function updateAudioTime(id, time, duration) {
+    const s = document.getElementById(id+'_time');
+    if(s) {
+      const min = Math.floor(time/60), sec = Math.floor(time%60);
+      s.textContent = `${min}:${sec.toString().padStart(2,'0')}`;
+    }
   }
 
   function renderResults() {
@@ -488,12 +538,10 @@
       const prev  = item.previewUrl||'';
       const openApple  = item.trackViewUrl || '';
       const openArtist = item.artistViewUrl || '';
-
       let linksHTML = '';
       if(platform === 'apple') {
         if(openApple) linksHTML += `<button onclick="window.open('${openApple}','_blank')">Apple Track</button>`;
         if(openArtist) linksHTML += `<button onclick="window.open('${openArtist}','_blank')">Apple Artist</button>`;
-        if(prev) linksHTML += `<button onclick="playAudioPreview('${prev}', this)">Preview 30s</button>`;
       }
       if(platform === 'spotify') {
         linksHTML += `<button onclick="window.open('https://open.spotify.com/search/${encodeURIComponent(title)}','_blank')">Find on Spotify</button>`;
@@ -511,6 +559,10 @@
         linksHTML += `<button onclick="window.open('https://soundcloud.com/search?q=${encodeURIComponent(title)}','_blank')">Find on SoundCloud</button>`;
       }
 
+      let audioHTML = '';
+      if(platform === 'apple' && prev) {
+        audioHTML = makeAudioPlayer(prev, 'mainpreview');
+      }
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
@@ -519,6 +571,7 @@
           <div class="track-title">${title}</div>
           <div class="track-album">${album}</div>
           <div class="platform-links">${linksHTML}</div>
+          ${audioHTML}
         </div>
       `;
       wrap.appendChild(card);
@@ -527,36 +580,12 @@
     renderVersionsTab();
   }
 
-  // --- Platform dropdown triggers live filtering ---
   document.getElementById('platform').addEventListener('change', function() {
     lastPlatform = this.value;
     renderResults();
     renderVersionGraph();
   });
 
-  // --- Audio Player Preview ---
-  let previewAudio = null;
-  function playAudioPreview(url, btn) {
-    if(previewAudio) {
-      previewAudio.pause();
-      previewAudio = null;
-    }
-    previewAudio = new Audio(url);
-    previewAudio.play();
-    btn.textContent = "Pause";
-    previewAudio.onended = () => { btn.textContent = "Preview 30s"; previewAudio = null; };
-    previewAudio.onpause = () => { btn.textContent = "Preview 30s"; };
-    btn.onclick = function() {
-      if(previewAudio && !previewAudio.paused) {
-        previewAudio.pause();
-        btn.textContent = "Preview 30s";
-      } else {
-        playAudioPreview(url, btn);
-      }
-    }
-  }
-
-  // Enter key triggers search
   document.getElementById('q').addEventListener('keydown', function(e) {
     if(e.key === 'Enter') {
       doSearch();
@@ -564,7 +593,6 @@
   });
   document.getElementById('searchBtn').onclick = doSearch;
 
-  // --- Version graph ---
   function fetchVersions(query, hits) {
     lastVersions = [];
     if(hits.length) {
@@ -613,7 +641,7 @@
           <div class="version-info">
             <div class="version-title">${v.title}</div>
             <div class="version-type">${v.type}</div>
-            ${v.preview ? `<button onclick="playAudioPreview('${v.preview}', this)">Preview 30s</button>` : ''}
+            ${v.preview ? makeAudioPlayer(v.preview, 'verpreview'+i) : ''}
           </div>
         </div>
         ${i !== lastVersions.length-1 ? '<div class="version-arrow">➔</div>' : ''}
@@ -638,7 +666,7 @@
           <div class="version-info">
             <div class="version-title">${v.title}</div>
             <div class="version-type">${v.type}</div>
-            ${v.preview ? `<button onclick="playAudioPreview('${v.preview}', this)">Preview 30s</button>` : ''}
+            ${v.preview ? makeAudioPlayer(v.preview, 'tabpreview'+i) : ''}
           </div>
         </div>
         ${i !== lastVersions.length - 1 ? '<div class="version-arrow">➔</div>' : ''}
