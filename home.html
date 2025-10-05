@@ -420,7 +420,7 @@
   </div>
 </main>
 <footer>
-  SykMyx • Modern Demo UI • v1.8
+  SykMyx • Modern Demo UI • v1.9
 </footer>
 <script>
   // Theme switching logic
@@ -493,6 +493,7 @@
       if(platform === 'apple') {
         if(openApple) linksHTML += `<button onclick="window.open('${openApple}','_blank')">Apple Track</button>`;
         if(openArtist) linksHTML += `<button onclick="window.open('${openArtist}','_blank')">Apple Artist</button>`;
+        if(prev) linksHTML += `<button onclick="playAudioPreview('${prev}', this)">Preview 30s</button>`;
       }
       if(platform === 'spotify') {
         linksHTML += `<button onclick="window.open('https://open.spotify.com/search/${encodeURIComponent(title)}','_blank')">Find on Spotify</button>`;
@@ -510,11 +511,6 @@
         linksHTML += `<button onclick="window.open('https://soundcloud.com/search?q=${encodeURIComponent(title)}','_blank')">Find on SoundCloud</button>`;
       }
 
-      let audioHTML = '';
-      if(platform === 'apple' && prev) {
-        audioHTML = makeAudioPlayer(prev);
-      }
-
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
@@ -523,7 +519,6 @@
           <div class="track-title">${title}</div>
           <div class="track-album">${album}</div>
           <div class="platform-links">${linksHTML}</div>
-          ${audioHTML}
         </div>
       `;
       wrap.appendChild(card);
@@ -539,57 +534,25 @@
     renderVersionGraph();
   });
 
-  // --- Audio Player ---
-  function makeAudioPlayer(url) {
-    const id = 'aud_' + Math.floor(Math.random()*1000000);
-    return `
-      <div class="audio-container" data-url="${url}" id="${id}">
-        <button class="audio-btn" onclick="playAudio('${id}')">▶️</button>
-        <button class="audio-btn" onclick="pauseAudio('${id}')">⏸️</button>
-        <button class="audio-btn" onclick="stopAudio('${id}')">⏹️</button>
-        <button class="audio-btn" onclick="rewindAudio('${id}')">⏪</button>
-        <button class="audio-btn" onclick="forwardAudio('${id}')">⏩</button>
-        <span class="audio-time" id="${id}_time">0:00</span>
-      </div>
-    `;
-  }
-  let currentAudio = null, currentTimer = null;
-  function playAudio(id) {
-    stopAllAudio();
-    const el = document.getElementById(id);
-    if(!el) return;
-    const url = el.getAttribute('data-url');
-    currentAudio = new Audio(url);
-    currentAudio.play();
-    currentAudio.ontimeupdate = () => updateAudioTime(id, currentAudio.currentTime, currentAudio.duration);
-    currentAudio.onended = () => stopAudio(id);
-    currentTimer = setInterval(() => updateAudioTime(id, currentAudio.currentTime, currentAudio.duration), 200);
-  }
-  function pauseAudio(id) {
-    if(currentAudio) currentAudio.pause();
-  }
-  function stopAudio(id) {
-    if(currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
-    updateAudioTime(id, 0, currentAudio ? currentAudio.duration : 0);
-    if(currentTimer) clearInterval(currentTimer);
-    currentAudio = null;
-  }
-  function rewindAudio(id) {
-    if(currentAudio) { currentAudio.currentTime = Math.max(currentAudio.currentTime - 5, 0); }
-  }
-  function forwardAudio(id) {
-    if(currentAudio) { currentAudio.currentTime = Math.min(currentAudio.currentTime + 5, currentAudio.duration); }
-  }
-  function stopAllAudio() {
-    if(currentAudio) { currentAudio.pause(); currentAudio = null; }
-    if(currentTimer) clearInterval(currentTimer);
-    document.querySelectorAll('.audio-time').forEach(e => e.textContent = '0:00');
-  }
-  function updateAudioTime(id, time, duration) {
-    const s = document.getElementById(id+'_time');
-    if(s) {
-      const min = Math.floor(time/60), sec = Math.floor(time%60);
-      s.textContent = `${min}:${sec.toString().padStart(2,'0')}`;
+  // --- Audio Player Preview ---
+  let previewAudio = null;
+  function playAudioPreview(url, btn) {
+    if(previewAudio) {
+      previewAudio.pause();
+      previewAudio = null;
+    }
+    previewAudio = new Audio(url);
+    previewAudio.play();
+    btn.textContent = "Pause";
+    previewAudio.onended = () => { btn.textContent = "Preview 30s"; previewAudio = null; };
+    previewAudio.onpause = () => { btn.textContent = "Preview 30s"; };
+    btn.onclick = function() {
+      if(previewAudio && !previewAudio.paused) {
+        previewAudio.pause();
+        btn.textContent = "Preview 30s";
+      } else {
+        playAudioPreview(url, btn);
+      }
     }
   }
 
@@ -610,22 +573,26 @@
         {
           type: "Original",
           title: base.trackName + " — " + base.artistName,
-          art: (base.artworkUrl100||'').replace('100x100','200x200')
+          art: (base.artworkUrl100||'').replace('100x100','200x200'),
+          preview: base.previewUrl || ''
         },
         {
           type: "Live",
           title: base.trackName + " (Live) — " + base.artistName,
-          art: (base.artworkUrl100||'').replace('100x100','200x200')
+          art: (base.artworkUrl100||'').replace('100x100','200x200'),
+          preview: base.previewUrl || ''
         },
         {
           type: "Remix",
           title: base.trackName + " (Remix) — DJ Example",
-          art: (base.artworkUrl100||'').replace('100x100','200x200')
+          art: (base.artworkUrl100||'').replace('100x100','200x200'),
+          preview: base.previewUrl || ''
         },
         {
           type: "Acoustic",
           title: base.trackName + " (Acoustic) — " + base.artistName,
-          art: (base.artworkUrl100||'').replace('100x100','200x200')
+          art: (base.artworkUrl100||'').replace('100x100','200x200'),
+          preview: base.previewUrl || ''
         }
       ];
     }
@@ -646,6 +613,7 @@
           <div class="version-info">
             <div class="version-title">${v.title}</div>
             <div class="version-type">${v.type}</div>
+            ${v.preview ? `<button onclick="playAudioPreview('${v.preview}', this)">Preview 30s</button>` : ''}
           </div>
         </div>
         ${i !== lastVersions.length-1 ? '<div class="version-arrow">➔</div>' : ''}
@@ -670,6 +638,7 @@
           <div class="version-info">
             <div class="version-title">${v.title}</div>
             <div class="version-type">${v.type}</div>
+            ${v.preview ? `<button onclick="playAudioPreview('${v.preview}', this)">Preview 30s</button>` : ''}
           </div>
         </div>
         ${i !== lastVersions.length - 1 ? '<div class="version-arrow">➔</div>' : ''}
