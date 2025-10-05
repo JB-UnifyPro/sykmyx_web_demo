@@ -4,15 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SykMyx</title>
-
-  <!-- PWA polish -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="SykMyx">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#191a23">
   <link rel="manifest" href="/manifest.webmanifest">
-
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <style>
     :root {
       --bg-dark: #191a23;
@@ -21,14 +15,12 @@
       --muted-dark: #8d94a7;
       --accent-dark: #8b5cf6;
       --accent2-dark: #06b6d4;
-
       --bg-light: #f7f8fa;
       --card-light: #e5e7eb;
       --text-light: #23243a;
       --muted-light: #8d94a7;
       --accent-light: #8b5cf6;
       --accent2-light: #06b6d4;
-
       --radius: 18px;
       --shadow: 0 12px 32px rgba(30,40,60,.18);
       --transition: 0.3s cubic-bezier(.4,0,.2,1);
@@ -47,7 +39,6 @@
       background: var(--bg-light);
       color: var(--text-light);
     }
-
     header {
       position: sticky; top: 0; z-index: 10;
       background: rgba(30,36,58,.6);
@@ -93,7 +84,6 @@
       color: var(--muted-dark);
     }
     body.light .theme-toggle { color: var(--muted-light); }
-
     select, button, input {
       border-radius: 10px;
       border: 1px solid rgba(130,130,150,0.12);
@@ -124,7 +114,6 @@
     .hero strong { font-size: 1.25rem; letter-spacing: 1px; }
     .hero .tip { font-size: 15px; color: rgba(255,255,255,0.82); margin-top: 8px; }
     body.light .hero .tip { color: #23243a; }
-
     nav.tabs {
       display: flex; gap: 10px; margin: 26px 0 20px 0; flex-wrap: wrap;
       background: transparent;
@@ -154,7 +143,6 @@
       background: linear-gradient(90deg, var(--accent-light), var(--accent2-light));
       color: #23243a;
     }
-
     .card {
       background: var(--card-dark);
       border-radius: var(--radius);
@@ -177,7 +165,6 @@
       gap: 18px;
       margin-top: 10px;
     }
-
     footer {
       color: var(--muted-dark); font-size: 13px;
       padding: 36px 16px; text-align: center;
@@ -185,8 +172,6 @@
       border-top: 1px solid rgba(80,90,110,0.13);
     }
     body.light footer { color: var(--muted-light); border-top: 1px solid #e5e7eb; }
-
-    /* Responsive */
     @media (max-width: 640px) {
       .container { padding: 12px 6px; }
       h1 { font-size: 1.4rem; }
@@ -218,7 +203,6 @@
     </div>
   </div>
 </header>
-
 <main>
   <div class="container">
     <nav class="tabs">
@@ -228,7 +212,6 @@
       <button data-tab="settings">Settings</button>
       <button data-tab="compliance">Compliance</button>
     </nav>
-
     <section id="search" class="tab">
       <div class="card">
         <h3>Search for music</h3>
@@ -248,7 +231,6 @@
       </div>
       <div id="results" class="grid"></div>
     </section>
-
     <section id="identify" class="tab" style="display:none">
       <div class="card">
         <h3>Identify a track</h3>
@@ -264,7 +246,6 @@
         <div class="notice">Clarity Lock: SykMyx routes, platforms host playback.</div>
       </div>
     </section>
-
     <section id="versions" class="tab" style="display:none">
       <div class="card">
         <h3>Versions (Swipe to browse)</h3>
@@ -274,7 +255,6 @@
         </div>
       </div>
     </section>
-
     <section id="settings" class="tab" style="display:none">
       <div class="card">
         <h3>Settings</h3>
@@ -285,7 +265,6 @@
         </ul>
       </div>
     </section>
-
     <section id="compliance" class="tab" style="display:none">
       <div class="card">
         <h3>Compliance & Notes</h3>
@@ -297,11 +276,9 @@
     </section>
   </div>
 </main>
-
 <footer>
   SykMyx • Modern Demo UI • v1.1
 </footer>
-
 <script>
   // Theme switching logic
   const themeSelect = document.getElementById('themeSelect');
@@ -315,7 +292,6 @@
     localStorage.setItem('sykmyx_theme', mode);
   }
   themeSelect.addEventListener('change', e => setTheme(e.target.value));
-  // Load saved or auto theme
   (function() {
     const saved = localStorage.getItem('sykmyx_theme') || 'dark';
     themeSelect.value = saved;
@@ -324,36 +300,28 @@
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => setTheme('auto'));
     }
   })();
-
-  // Tabs
   document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => {
     document.querySelectorAll('nav.tabs button').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
     const id = b.dataset.tab;
     document.querySelectorAll('.tab').forEach(s => s.style.display = (s.id === id ? 'block' : 'none'));
   });
-
-  // SEARCH (Demo: Apple JSONP + deep links, neutral UI)
   function doSearch() {
     const q = (document.getElementById('q').value || 'Song X').trim();
     const wrap = document.getElementById('results');
     wrap.innerHTML = '<div class="notice">Searching…</div>';
-
     const cb = 'syk_cb_' + Date.now();
     const url = 'https://itunes.apple.com/search?media=music&entity=song&limit=12&term=' + encodeURIComponent(q) + '&callback=' + cb;
-
     window[cb] = function(data){
       wrap.innerHTML = '';
       (data.results || []).forEach(item => {
         const title = `${item.trackName} — ${item.artistName}`;
         const art   = (item.artworkUrl100||'').replace('100x100','200x200');
         const prev  = item.previewUrl||'';
-
         const openApple  = item.trackViewUrl || '';
         const openArtist = item.artistViewUrl || '';
         const openSpotify= 'https://open.spotify.com/search/'+encodeURIComponent(title);
         const openYTM    = 'https://music.youtube.com/search?q='+encodeURIComponent(title);
-
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
@@ -376,16 +344,12 @@
       if(!wrap.children.length){ wrap.innerHTML='<div class="notice">No results — try another term.</div>'; }
       cleanup();
     };
-
     const s = document.createElement('script');
     s.id = cb; s.src = url;
     s.onerror = function(){ wrap.innerHTML='<div class="notice">Search failed. Try again.'; cleanup(); };
     document.body.appendChild(s);
-
     function cleanup(){ try{ delete window[cb]; }catch{} const el=document.getElementById(cb); if(el) el.remove(); }
   }
-
-  // Identify demo logic
   function runIdentify() {
     const m = document.getElementById('identifyMode').value;
     if(m!=='AppleShazam' && m!=='Standalone'){ alert('Identify is locked OFF for this surface.'); return; }

@@ -1,18 +1,20 @@
-SykMyx Mutual Non-Disclosure Agreement (Short-Form)
+SykMyx Mutual NDA — Short Form
+-------------------------------
 
-Parties: (1) SykMyx ("Discloser/Recipient") and (2) __________________ ("Discloser/Recipient").
+This Mutual Non-Disclosure Agreement ("Agreement") is entered into as of [Date] between SykMyx ("Party A") and [Counterparty] ("Party B").
 
-Purpose: Evaluation of SykMyx services and potential business relationship.
+1. Purpose: Parties wish to exchange confidential information for evaluating potential business relationship.
+2. Definition: "Confidential Information" means any non-public, proprietary, or sensitive data disclosed.
+3. Use: Recipient shall use disclosed information only for evaluation and not disclose to third parties.
+4. Term: This Agreement is effective for 2 years from the Effective Date.
+5. Exclusions: Information that is public, independently developed, or obtained lawfully is excluded.
+6. Return: Upon request, all confidential material will be returned or destroyed.
+7. No license: No transfer of intellectual property or other rights.
+8. Signatures: Both parties to sign and date below.
 
-1) Confidential Information includes non-public technical, business, operational, and methodological information, including Version Graph methods, routing logic, link-health processes, takedown workflows, and related documentation and data.
-2) Use & Restrictions: Recipient shall use Confidential Information solely for the Purpose; shall not disclose to third parties except to employees/agents with a need to know and who are bound by confidentiality; and shall not reverse engineer, decompile, or use Confidential Information to create a competing product or service.
-3) Exclusions: Information that is (a) publicly available without breach; (b) known prior to disclosure; (c) independently developed; or (d) rightfully obtained from a third party without duty of confidentiality.
-4) Term: This Agreement is effective upon execution and continues until either party terminates upon written notice. Recipient’s confidentiality obligations survive for two (2) years after termination.
-5) Remedies: Breach may cause irreparable harm; Discloser is entitled to injunctive relief and any other remedies at law or equity.
-6) No license or joint venture is granted by this Agreement.
-7) Governing Law: _____________________________
-8) Signatures:
-SykMyx: _____________________________   Date: ____________
-Other Party: _________________________   Date: ____________
+Party A: SykMyx                Date: ________________
 
-For a longer-form NDA or Docx version, contact ops@sykmyx.net.
+Party B: [Counterparty]        Date: ________________
+
+-------------------------------
+Contact: hello@sykmyx.com

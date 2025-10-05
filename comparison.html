@@ -1,30 +1,125 @@
 <!doctype html>
 <html lang="en">
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SykMyx — Service & Price Comparison</title>
-<style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;padding:24px;background:#0b0f13;color:#e7edf3}
-h1{margin:0 0 12px} .k{color:#9fb3c8} a{color:#42b883;text-decoration:none}
-.table{width:100%;border-collapse:collapse;margin-top:12px;background:#0e141b}
-.table th,.table td{border:1px solid #223044;padding:10px;text-align:left}
-.badge{display:inline-block;padding:2px 8px;border-radius:999px;background:#13202d;border:1px solid #223044;color:#b7c6d6;font-size:12px}
-.card{background:#0e141b;border:1px solid #182231;border-radius:12px;padding:16px;margin-top:16px}
-</style>
-<h1>SykMyx — Service & Price Comparison</h1>
-<div class="k">Tools sell features. We deliver outcomes.</div>
-<div class="card">
-<table class="table">
-  <thead><tr><th>Service</th><th>What it is</th><th>Typical pricing</th><th>Managed ops (checks + intake)</th><th>Official vs Community labeling</th></tr></thead>
-  <tbody>
-    <tr><td><strong>SykMyx</strong></td><td>Rights‑aware routing + Version Graph</td><td>$39 / $99 / $199 / $349</td><td><strong>Included</strong></td><td><strong>Yes (policy)</strong></td></tr>
-    <tr><td>Linkfire</td><td>Smart links / bio / analytics</td><td>$27–$55+ / mo</td><td>No</td><td>No</td></tr>
-    <tr><td>Feature.fm</td><td>Smart links + CRM</td><td>$19+ / mo</td><td>No</td><td>No</td></tr>
-    <tr><td>Odesli / Songlink</td><td>Auto smart links</td><td>Free</td><td>No</td><td>No</td></tr>
-    <tr><td>Linktree (Music)</td><td>Link‑in‑bio</td><td>$0–$24 / mo</td><td>No</td><td>No</td></tr>
-    <tr><td>Hypeddit / PUSH.fm / etc.</td><td>Promo tools</td><td>$5–$100 / mo</td><td>No</td><td>No</td></tr>
-  </tbody>
-</table>
-<p class="k">Footnote: Competitor prices are software‑only. SykMyx includes human QA + takedown intake.</p>
-<p><a href="/">Back to home</a></p>
-</div>
+<head>
+  <meta charset="utf-8" />
+  <title>SykMyx Comparison Deck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      background: #191a23;
+      color: #f0f1f7;
+      font-family: 'Inter', 'Segoe UI', system-ui, Arial, sans-serif;
+      margin: 0; padding: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 940px;
+      margin: 36px auto;
+      padding: 20px;
+      background: #23243a;
+      border-radius: 20px;
+      box-shadow: 0 8px 28px rgba(30,40,60,0.16);
+    }
+    h1 {
+      font-size: 2rem; margin-bottom: 12px;
+      background: linear-gradient(95deg, #8b5cf6, #06b6d4);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 26px;
+      background: #23243a;
+    }
+    th, td {
+      padding: 14px 10px;
+      border-bottom: 1px solid #32344d;
+      text-align: left;
+      font-size: 1.06rem;
+    }
+    th {
+      background: #191a23;
+      color: #8b5cf6;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #252746; }
+    .strength { color: #06b6d4; font-weight: bold; }
+    .weak { color: #8d94a7; }
+    @media (max-width: 640px) {
+      .container { padding: 10px; }
+      h1 { font-size: 1.3rem; padding: 6px 12px; }
+      th, td { font-size: .93rem; padding: 7px 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>SykMyx vs. Music Link Platforms — Comparison Deck</h1>
+    <table>
+      <tr>
+        <th>Platform</th>
+        <th>Strengths</th>
+        <th>Weaknesses</th>
+        <th>SykMyx Advantage</th>
+      </tr>
+      <tr>
+        <td>Odesli/Songlink</td>
+        <td>Multi-platform links</td>
+        <td class="weak">No version graph, basic UI</td>
+        <td class="strength">Version Graph, Swipe Versions, Neutral Branding</td>
+      </tr>
+      <tr>
+        <td>Linkfire</td>
+        <td>Marketing analytics, deep links</td>
+        <td class="weak">Expensive, platform-biased</td>
+        <td class="strength">Free for Indies, Open UX, No bias</td>
+      </tr>
+      <tr>
+        <td>Linktree Music Links</td>
+        <td>Simple, easy links</td>
+        <td class="weak">No music identity features</td>
+        <td class="strength">Music ID, Preview, Swipe UI</td>
+      </tr>
+      <tr>
+        <td>Soundiiz, TuneMyMusic</td>
+        <td>Library transfer</td>
+        <td class="weak">No search/identity, not neutral</td>
+        <td class="strength">Unified search, neutral</td>
+      </tr>
+      <tr>
+        <td>Shazam, SoundHound</td>
+        <td>Audio recognition</td>
+        <td class="weak">Single-platform focus</td>
+        <td class="strength">Cross-platform, ACR hybrid policy</td>
+      </tr>
+      <tr>
+        <td>MusicBrainz, Discogs</td>
+        <td>Open catalog</td>
+        <td class="weak">No real-time preview</td>
+        <td class="strength">Version swipe, 30s preview</td>
+      </tr>
+      <tr>
+        <td>WhoSampled, SecondHandSongs</td>
+        <td>Sample/remix lineage</td>
+        <td class="weak">No instant listen</td>
+        <td class="strength">Instant preview, swipe lineage</td>
+      </tr>
+      <tr>
+        <td>Chartmetric, Soundcharts</td>
+        <td>Analytics, global stats</td>
+        <td class="weak">No user-facing music ID</td>
+        <td class="strength">User-first search, version graph</td>
+      </tr>
+      <tr>
+        <td><strong>SykMyx</strong></td>
+        <td class="strength">Version Graph, Swipe UI, 30s Preview, Neutral, Audit-ready</td>
+        <td class="weak">New entrant, evolving features</td>
+        <td class="strength">Fast, Indie-ready, One-tap “Open on {platform}”</td>
+      </tr>
+    </table>
+  </div>
+</body>
 </html>
