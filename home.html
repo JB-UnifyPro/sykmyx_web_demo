@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SykMyx</title>
   <meta name="theme-color" content="#191a23">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -16,10 +14,8 @@
       --text-dark: #f0f1f7;
       --muted-dark: #8d94a7;
       --accent: linear-gradient(90deg, #8b5cf6 0%, #06b6d4 100%);
-      --accent2: #06b6d4;
       --radius: 22px;
       --shadow: 0 10px 36px rgba(40,40,80,.22);
-      --transition: 0.35s cubic-bezier(.4,0,.2,1);
       --logo-size: 50px;
       --gap: 28px;
       --card-width: 380px;
@@ -27,13 +23,11 @@
       --strand-width: 350px;
       --strand-height: 130px;
     }
-    html, body { height: 100%; margin: 0; }
     body {
       min-height: 100vh;
       font-family: 'Montserrat', 'Inter', 'Segoe UI', system-ui, Arial, sans-serif;
       background: var(--bg-dark);
       color: var(--text-dark);
-      transition: background var(--transition), color var(--transition);
       letter-spacing: 0.01em;
     }
     header {
@@ -42,21 +36,15 @@
       border-bottom: 1px solid rgba(255,255,255,.06);
       backdrop-filter: blur(11px) saturate(120%);
     }
-    .container {
-      max-width: 1100px; margin: 0 auto; padding: 24px 24px;
-    }
-    .brand-row {
-      display: flex; align-items: center; gap: 18px;
-    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px 24px;}
+    .brand-row { display: flex; align-items: center; gap: 18px;}
     .sykmyx-logo {
       width: var(--logo-size); height: var(--logo-size);
       border-radius: 14px;
       background: var(--accent);
       display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 2rem; color: #fff;
-      box-shadow: 0 0px 14px rgba(80,80,160,0.17);
       letter-spacing: 2px;
-      transition: background var(--transition);
       border: 0;
     }
     h1 {
@@ -81,7 +69,6 @@
       padding: 10px 16px;
       font-size: 16px;
       font-family: 'Montserrat', 'Inter', sans-serif;
-      transition: background var(--transition), color var(--transition), box-shadow .22s;
       font-weight: 500;
       outline: none;
     }
@@ -113,8 +100,6 @@
       font-weight: 600;
       font-size: 15px;
       cursor: pointer;
-      transition: background var(--transition), color var(--transition), box-shadow .22s;
-      box-shadow: none;
       margin-right: 1px;
     }
     nav.tabs button.active {
@@ -131,7 +116,6 @@
       padding: 22px 26px;
       margin-bottom: 20px;
       border: 1px solid rgba(130,130,150,0.10);
-      transition: background var(--transition), color var(--transition), box-shadow .18s;
       min-width: var(--card-width);
       max-width: 99vw;
       height: var(--card-height);
@@ -199,9 +183,6 @@
       padding: 8px 14px;
       border-radius: 8px;
       cursor: pointer;
-      transition: background .18s, color .18s, box-shadow .22s;
-      box-shadow: none;
-      outline: none;
     }
     .platform-links button:hover {
       background: linear-gradient(90deg,#06b6d4,#8b5cf6);
@@ -227,7 +208,6 @@
       padding: 4px 7px;
       border-radius: 7px;
       margin-right: 2px;
-      transition: background .18s, color .18s;
     }
     .audio-btn:hover {
       background: #8b5cf6;
@@ -272,11 +252,7 @@
       gap: 16px;
       padding: 16px 18px;
       position: relative;
-      transition: box-shadow .18s;
       border: 1px solid #272846;
-    }
-    .version-card:hover {
-      box-shadow: 0 8px 22px #8b5cf633;
     }
     .version-art {
       width: 48px; height: 48px;
@@ -318,7 +294,7 @@
       opacity: 0.3;
       user-select: none;
     }
-    .notice { font-size: 14px; color: var(--muted-dark); }
+    .notice { font-size: 14px; color: var(--muted-dark);}
     footer {
       color: var(--muted-dark); font-size: 13px;
       padding: 44px 16px; text-align: center;
@@ -387,7 +363,7 @@
             </select>
             <button id="searchBtn">Search</button>
           </div>
-          <p class="notice">Demo: Buttons show only the selected platform. "Preview 30s" plays audio in-site.</p>
+          <p class="notice">Cards show only real platform links. No blank or misleading buttons. Versions tab updates with results.</p>
         </div>
       </div>
       <div id="results" style="display:flex;gap:var(--gap);flex-wrap:wrap;"></div>
@@ -399,7 +375,7 @@
           <h3>Identify a track</h3>
           <div class="notice">ACR ON for Apple/Shazam & Standalone only. Other platforms disabled.</div>
           <div style="text-align:center; padding:16px 0;">
-            <div id="pulse" style="display:none; margin: auto; width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #06b6d4); box-shadow: 0 0 0 0 rgba(140,90,246,.25);"></div>
+            <div id="pulse" style="display:none; margin: auto; width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #06b6d4);"></div>
             <div id="match" style="margin-top:12px"></div>
             <div style="display:flex; justify-content:center; gap:8px; margin-top:10px;">
               <select id="identifyMode"><option>AppleShazam</option><option>Standalone</option><option disabled>Other (locked)</option></select>
@@ -414,7 +390,7 @@
       <div class="card">
         <div class="card-info">
           <h3>Versions (Swipe to browse)</h3>
-          <div class="notice">Search to populate versions. Swipe feature coming next!</div>
+          <div id="versionsTabBlock"><span class="notice">Search to populate versions. Swipe feature coming next!</span></div>
         </div>
       </div>
     </section>
@@ -444,7 +420,7 @@
   </div>
 </main>
 <footer>
-  SykMyx • Modern Demo UI • v1.6
+  SykMyx • Modern Demo UI • v1.7
 </footer>
 <script>
   // Theme switching logic
@@ -512,22 +488,29 @@
       const prev  = item.previewUrl||'';
       const openApple  = item.trackViewUrl || '';
       const openArtist = item.artistViewUrl || '';
-      const openSpotify= 'https://open.spotify.com/search/'+encodeURIComponent(title);
-      const openYTM    = 'https://music.youtube.com/search?q='+encodeURIComponent(title);
 
-      // Platform filtering logic
       let linksHTML = '';
       if(platform === 'apple') {
         if(openApple) linksHTML += `<button onclick="window.open('${openApple}','_blank')">Apple Track</button>`;
         if(openArtist) linksHTML += `<button onclick="window.open('${openArtist}','_blank')">Apple Artist</button>`;
       }
       if(platform === 'spotify') {
-        linksHTML += `<button onclick="window.open('${openSpotify}','_blank')">Spotify</button>`;
+        // Use only valid Spotify track link if available (needs real API; fallback to search)
+        linksHTML += `<button onclick="window.open('https://open.spotify.com/search/${encodeURIComponent(title)}','_blank')">Find on Spotify</button>`;
       }
       if(platform === 'ytmusic') {
-        linksHTML += `<button onclick="window.open('${openYTM}','_blank')">YouTube Music</button>`;
+        linksHTML += `<button onclick="window.open('https://music.youtube.com/search?q=${encodeURIComponent(title)}','_blank')">Find on YouTube Music</button>`;
       }
-      // Add audio player for Apple only (since preview URLs are Apple)
+      if(platform === 'amazon') {
+        linksHTML += `<button onclick="window.open('https://music.amazon.com/search/${encodeURIComponent(title)}','_blank')">Find on Amazon Music</button>`;
+      }
+      if(platform === 'tidal') {
+        linksHTML += `<button onclick="window.open('https://tidal.com/search?q=${encodeURIComponent(title)}','_blank')">Find on Tidal</button>`;
+      }
+      if(platform === 'soundcloud') {
+        linksHTML += `<button onclick="window.open('https://soundcloud.com/search?q=${encodeURIComponent(title)}','_blank')">Find on SoundCloud</button>`;
+      }
+
       let audioHTML = '';
       if(platform === 'apple' && prev) {
         audioHTML = makeAudioPlayer(prev);
@@ -547,6 +530,7 @@
       wrap.appendChild(card);
     });
     if(!wrap.children.length){ wrap.innerHTML='<div class="notice">No results — try another term.</div>'; }
+    renderVersionsTab();
   }
 
   // --- Platform dropdown triggers live filtering ---
@@ -620,8 +604,6 @@
 
   // --- Version graph ---
   function fetchVersions(query, hits) {
-    // Simulate with sample data based on hits (in production, fetch from API)
-    // We'll use the first hit as the "main version", then show remixes, live, acoustic, etc.
     lastVersions = [];
     if(hits.length) {
       const base = hits[0];
@@ -649,6 +631,7 @@
       ];
     }
     renderVersionGraph();
+    renderVersionsTab();
   }
 
   function renderVersionGraph() {
@@ -667,6 +650,30 @@
           </div>
         </div>
         ${i !== lastVersions.length-1 ? '<div class="version-arrow">➔</div>' : ''}
+      `;
+    });
+    graphHTML += '</div>';
+    block.innerHTML = graphHTML;
+  }
+
+  function renderVersionsTab() {
+    const block = document.getElementById('versionsTabBlock');
+    block.innerHTML = '';
+    if (!lastVersions.length) {
+      block.innerHTML = '<span class="notice">Search to populate versions. Swipe feature coming next!</span>';
+      return;
+    }
+    let graphHTML = '<div class="version-graph-strand">';
+    lastVersions.forEach((v, i) => {
+      graphHTML += `
+        <div class="version-card">
+          <img class="version-art" src="${v.art}" alt="Version Art">
+          <div class="version-info">
+            <div class="version-title">${v.title}</div>
+            <div class="version-type">${v.type}</div>
+          </div>
+        </div>
+        ${i !== lastVersions.length - 1 ? '<div class="version-arrow">➔</div>' : ''}
       `;
     });
     graphHTML += '</div>';
