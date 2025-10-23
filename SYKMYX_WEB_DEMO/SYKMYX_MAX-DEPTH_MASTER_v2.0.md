@@ -1,6 +1,6 @@
 # SykMyx — MAX■DEPTH Master (All Threads, Date■Synced) — v2.0
 
-Includes deep scan of: UniVibe Search Enhancements (1–3), UniVibe Name Conflicts, UniVibe Prototype (1–2), Flow■Chart  
+Includes deep scan of: SykMyx Search Enhancements (1–3), SykMyx Name Conflicts, SykMyx Prototype (1–2), Flow■Chart  
 SykMyx, SykMyx Prototype, Indie Labels (service).  
 Overrides with latest locked policies · October 10, 2025 · America/Edmonton
 
@@ -200,7 +200,7 @@ Become the default ‘air■traffic controller’ for music journeys: fast, neut
 
 ## 11) Date■Synced Thread Log with Overrides
 
-### 2025■07■14 — UniVibe Search Enhancements (Original)
+### 2025■07■14 — SykMyx Search Enhancements (Original)
 **Key Decisions / Details**
 - Recognition to avoid competing with Shazam; Apple/Shazam only.
 - Teen■simple identify UX; no internal audio taps.
@@ -259,7 +259,7 @@ Become the default ‘air■traffic controller’ for music journeys: fast, neut
 
 ---
 
-### 2025■08■29 — UniVibe 1 (Prototype) + Proposal Defaults
+### 2025■08■29 — SykMyx 1 (Prototype) + Proposal Defaults
 **Key Decisions / Details**
 - Ready■to■drop bundles required (no copy■paste).
 - Apple/Shazam baseline deck; multi■appendix audit pack.
@@ -289,7 +289,7 @@ Become the default ‘air■traffic controller’ for music journeys: fast, neut
 
 ---
 
-### 2025■09■03 — UniVibe Name Conflicts → SykMyx
+### 2025■09■03 — SykMyx Name Conflicts → SykMyx
 **Key Decisions / Details**
 - Chose SykMyx; request competitor comparison deck.
 
@@ -357,7 +357,7 @@ Become the default ‘air■traffic controller’ for music journeys: fast, neut
 
 ## 12) Change Log (This Document)
 - v1.1–v1.4: Progressive expansions (purpose/vision; benefits/cons; acronyms; addendums).
-- v1.5: Deep Scan Addendum for UniVibe Search Enhancements (override map; VERIFY list).
+- v1.5: Deep Scan Addendum for SykMyx Search Enhancements (override map; VERIFY list).
 - v2.0: MAX■DEPTH consolidated master with expanded tech spec, platform policy, date■synced log, and deploy/ops details.
 
 — End —
