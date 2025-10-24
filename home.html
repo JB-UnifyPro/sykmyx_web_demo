@@ -494,7 +494,32 @@
     const url = el.getAttribute('data-url');
     currentAudio = new Audio(url);
     currentAudio.play();
-    currentAudio.ontimeupdate = () => updateAudioTime(id, currentAudio.currentTime, currentAudio.duration);
+    currentAudio.ontimeupdate = function() {
+  // Guard: if currentAudio becomes null (for example after stopping),
+  // don't try to read currentTime and avoid the uncaught TypeError.
+  if (!currentAudio) return;
+
+  try {
+    // === BEGIN: existing ontimeupdate logic ===
+    // If you have lines here already (e.g. updating a progress bar, formatted time, etc.)
+    // keep them as-is. Example safe updates below — they check elements exist before using them.
+    var progressBar = document.getElementById('track-progress');
+    if (progressBar) progressBar.value = currentAudio.currentTime;
+
+    var currentTimeLabel = document.querySelector('.audio-current-time');
+    if (currentTimeLabel && typeof formatTime === 'function') {
+      currentTimeLabel.textContent = formatTime(currentAudio.currentTime);
+    }
+
+    // (If your original handler contains other statements that rely on currentAudio,
+    // leave those statements here. The guard above ensures currentAudio is defined.)
+    // === END: existing ontimeupdate logic ===
+
+  } catch (err) {
+    // Defensive: log for debugging but don't throw and break the page.
+    console.warn('ontimeupdate handler error:', err);
+  }
+};
     currentAudio.onended = () => stopAudio(id);
     currentTimer = setInterval(() => updateAudioTime(id, currentAudio.currentTime, currentAudio.duration), 200);
   }
