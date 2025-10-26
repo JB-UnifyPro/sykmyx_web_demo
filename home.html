@@ -523,14 +523,38 @@
     currentAudio.onended = () => stopAudio(id);
     currentTimer = setInterval(() => updateAudioTime(id, currentAudio.currentTime, currentAudio.duration), 200);
   }
-  function pauseAudio(id) {
-    if(currentAudio) currentAudio.pause();
+ function pauseAudio(id) {
+  if (currentAudio) {
+    // Remove ontimeupdate so the handler won't run after pause
+    currentAudio.ontimeupdate = null;
+
+    // Pause playback
+    currentAudio.pause();
   }
-  function stopAudio(id) {
-    if(currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
-    updateAudioTime(id, 0, currentAudio ? currentAudio.duration : 0);
-    if(currentTimer) clearInterval(currentTimer);
-    currentAudio = null;
+}
+
+function stopAudio(id) {
+  if (currentAudio) {
+    // Remove handler first
+    currentAudio.ontimeupdate = null;
+
+    // Pause and reset playback position
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+
+  // Update UI to show 0:00 (safe even if currentAudio is null)
+  updateAudioTime(id, 0, currentAudio ? currentAudio.duration : 0);
+
+  // Clear any interval timer used to update UI
+  if (currentTimer) {
+    clearInterval(currentTimer);
+    currentTimer = null;
+  }
+
+  // Release the reference to the audio element
+  currentAudio = null;
+}
   }
   function rewindAudio(id) {
     if(currentAudio) { currentAudio.currentTime = Math.max(currentAudio.currentTime - 5, 0); }
