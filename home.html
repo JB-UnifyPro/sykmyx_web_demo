@@ -555,7 +555,7 @@ function stopAudio(id) {
   // Release the reference to the audio element
   currentAudio = null;
 }
-  }
+  
   function rewindAudio(id) {
     if(currentAudio) { currentAudio.currentTime = Math.max(currentAudio.currentTime - 5, 0); }
   }
