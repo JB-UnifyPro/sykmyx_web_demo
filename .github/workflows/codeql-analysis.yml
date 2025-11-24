@@ -1,18 +1,40 @@
 name: "CodeQL"
+
 on:
   push:
     branches: [ main ]
   pull_request:
     types: [opened, synchronize, reopened]
+
+# Give the action the permissions it needs to read repo contents and upload security events (SARIF)
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   analyze:
+    name: Analyze
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
         with:
+          fetch-depth: 0
+
+      - name: Initialize CodeQL
+        # Updated to v3 (v1/v2 deprecated)
+        uses: github/codeql-action/init@v3
+        with:
+          # change languages if your repo is not JS/TS
           languages: javascript
+
+      - name: Autobuild (auto-detect build)
+        # updated autobuild to v3
+        uses: github/codeql-action/autobuild@v3
+        # If your project requires a custom build step, replace this with your build:
+        # - run: npm ci
+        # - run: npm run build
+
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
