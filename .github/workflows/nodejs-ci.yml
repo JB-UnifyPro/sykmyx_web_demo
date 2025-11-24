@@ -1,0 +1,39 @@
+name: Node.js CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        # If your package.json is in /frontend, run with working-directory: frontend
+        run: npm ci
+        # If your package.json is in a subfolder, replace with:
+        # run: npm ci
+        # working-directory: ./frontend
+
+      - name: Build (optional)
+        run: npm run build
+        continue-on-error: true
+
+      - name: Run tests
+        run: npm test
