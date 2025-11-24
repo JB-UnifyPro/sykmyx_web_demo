@@ -1,10 +1,21 @@
 version: 2
 updates:
+  # NPM updates for frontend package (change directory if different)
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/frontend"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
+
+  # If you also have a package.json at repo root AND want updates there, enable the block below.
+  # Remove or comment it out if you do NOT have package.json at repo root (it caused the earlier error).
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   open-pull-requests-limit: 5
+
+  # Keep GitHub Actions updates enabled
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
